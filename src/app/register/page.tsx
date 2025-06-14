@@ -7,10 +7,30 @@ import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useCreateUser } from './api/route';
+type Inputs = {
+    name: string
+    email: string
+    password: string
+}
 
 const LottiePlayer = dynamic(() => import('@lottiefiles/react-lottie-player').then((mod) => mod.Player), { ssr: false });
 const Register = () => {
+    const createUser = useCreateUser();
     const [showPassword, setShowPassword] = useState(false);
+    const {
+        register,
+        handleSubmit,
+        watch,
+        reset,
+        formState: { errors },
+    } = useForm<Inputs>()
+    const onSubmit: SubmitHandler<Inputs> = async (user_data) => {
+        console.log(user_data)
+        await createUser.mutateAsync(user_data)
+        reset();
+    }
     return (
         <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6 px-4 lg:px-16 items-center">
             {/* Left side: Animation */}
@@ -28,7 +48,9 @@ const Register = () => {
             <div className="bg-popover-foreground dark:bg-popover-foreground shadow-md rounded-xl p-6 sm:p-8 text-white">
                 <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
 
-                <form className="space-y-5">
+                <form
+                    onSubmit={handleSubmit(onSubmit)}
+                    className="space-y-5">
                     {/* Name */}
                     <div className="grid gap-1.5">
                         <Label htmlFor="name">
@@ -39,6 +61,7 @@ const Register = () => {
                             id="name"
                             placeholder="Enter Name"
                             required
+                            {...register('name')}
                         />
                     </div>
 
@@ -52,6 +75,7 @@ const Register = () => {
                             id="email"
                             placeholder="Enter Email"
                             required
+                            {...register('email')}
                         />
                     </div>
 
@@ -67,6 +91,13 @@ const Register = () => {
                                 placeholder="Enter Password"
                                 className="pr-10"
                                 required
+                                {...register("password", {
+                                    required: 'Password is required',
+                                    minLength: {
+                                        value: 6,
+                                        message: 'Password must be at least 6 characters long'
+                                    }
+                                })}
                             />
                             <Button
                                 type="button"
@@ -82,6 +113,7 @@ const Register = () => {
                                     <EyeIcon className="w-5 h-5 text-gray-600" />
                                 )}
                             </Button>
+                            {errors.password && <p className='text-red-700 text-sm'>{errors.password.message}</p>}
                         </div>
                     </div>
 

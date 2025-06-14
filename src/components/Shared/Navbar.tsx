@@ -3,13 +3,18 @@ import Link from "next/link";
 import { Button } from "../ui/button";
 import { RiMenu2Fill } from "react-icons/ri";
 import { useTheme } from "next-themes";
+import { useAuth } from "@/Provider/AuthProvider";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+
 
 
 const Navbar = () => {
     const { setTheme } = useTheme()
     const currentTheme = localStorage.getItem('theme')
     if (!currentTheme) return setTheme('system')
-    const user = null;
+    const { user, logOut, loading } = useAuth();
+    console.log(user)
     return (
         <header className="flex h-20 w-full items-center px-4 md:px-6 shadow-xl border-b-2 bg-popover-foreground">
             <Link href="/" className="flex items-center">
@@ -26,10 +31,8 @@ const Navbar = () => {
             {user ? (
                 <>
                     <div className="ml-auto flex items-center">
-
-
                         {/*DropDown user  */}
-                        {/* <DropdownMenu>
+                        <DropdownMenu>
                             <DropdownMenuTrigger>
                                 <Avatar>
                                     <AvatarImage src='https://i.ibb.co.com/RbY8vby/avatar.png' alt="avatar" />
@@ -42,7 +45,7 @@ const Navbar = () => {
                                 <DropdownMenuLabel onClick={logOut}>LogOut</DropdownMenuLabel>
                                 <DropdownMenuSeparator />
                             </DropdownMenuContent>
-                        </DropdownMenu> */}
+                        </DropdownMenu>
                     </div>
                 </>
             ) : (
