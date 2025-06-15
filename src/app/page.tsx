@@ -1,11 +1,11 @@
 'use client'
-
 import Greetings from "@/components/Shared/Greetings";
 import { Button } from "@/components/ui/button";
 import { Cross, Menu } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ReactNode, useState } from "react";
+import { GiHamburgerMenu } from "react-icons/gi";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(true);
@@ -35,7 +35,9 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
         {/* Main content */}
         <div className="flex-1 p-4">
           <div>
-            <Button className="border border-red-600" variant="ghost" onClick={() => setOpen(!open)} size="icon"></Button>
+            <Button className="border border-red-600" variant="ghost" onClick={() => setOpen(!open)} size="icon">
+              <GiHamburgerMenu />
+            </Button>
             {isHomePage && <Greetings />}
           </div>
           {children}

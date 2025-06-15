@@ -1,5 +1,5 @@
 import { Badge } from "../ui/badge";
-
+import { FaPencilAlt, FaRegTrashAlt } from "react-icons/fa";
 interface Task {
     _id: string,
     title: string,
@@ -35,6 +35,10 @@ const ToDo = ({ task }: CardProp) => {
                 {tags?.map((tag, idx) => (
                     <Badge key={idx} className="bg-gray-100 text-gray-700 border">{tag}</Badge>
                 ))}
+            </div>
+            <div className="flex justify-around mt-2">
+                <FaPencilAlt  className="cursor-pointer text-red-700 text-lg"/>
+                <FaRegTrashAlt className="cursor-pointer text-red-700 text-lg" />
             </div>
         </div>
     );
