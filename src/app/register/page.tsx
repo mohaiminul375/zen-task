@@ -9,28 +9,86 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useCreateUser } from './api/route';
+import ImageUploading, { ImageListType } from 'react-images-uploading';
+import toast from 'react-hot-toast';
+import axios from 'axios';
+import Image from 'next/image';
 type Inputs = {
-    name: string
-    email: string
-    password: string
+    name: string,
+    email: string,
+    password: string,
+    avatar: string;
 }
 
 const LottiePlayer = dynamic(() => import('@lottiefiles/react-lottie-player').then((mod) => mod.Player), { ssr: false });
 const Register = () => {
     const createUser = useCreateUser();
     const [showPassword, setShowPassword] = useState(false);
+    const [images, setImages] = useState<ImageListType>([]);
     const {
         register,
         handleSubmit,
         watch,
         reset,
         formState: { errors },
-    } = useForm<Inputs>()
+    } = useForm<Inputs>();
+    //read the image
+    const readFileAsBase64 = (file: File): Promise<string> => {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+
+            reader.onload = () => {
+                if (typeof reader.result === 'string') {
+                    const base64 = reader.result.split(',')[1];
+                    resolve(base64);
+                } else {
+                    reject(new Error("Failed to read file as base64"));
+                }
+            };
+
+            reader.onerror = () => {
+                reject(new Error("Error reading file"));
+            };
+        });
+    };
     const onSubmit: SubmitHandler<Inputs> = async (user_data) => {
         console.log(user_data)
-        await createUser.mutateAsync(user_data)
-        reset();
+        if (images.length === 0 || !images[0]?.file) {
+            toast.error("Image is required!");
+            return;
+        }
+
+        const file = images[0].file;
+        try {
+            const base64Image = await readFileAsBase64(file);
+            // Upload to ImgBB
+            const { data: res } = await axios.post(
+                `https://api.imgbb.com/1/upload?key=${process.env.NEXT_PUBLIC_IMG_API}`,
+                { image: base64Image },
+                { headers: { "content-type": "multipart/form-data" } }
+            );
+            // get url form ImgBB
+            const img_url = res?.data?.display_url;
+            user_data.avatar = img_url;
+            if (!img_url) {
+                toast.error('Error from the image server. Please try again or contact the developer.');
+                return;
+            }
+            console.log(user_data)
+            await createUser.mutateAsync(user_data)
+            reset();
+            setImages([])
+        } catch (error) {
+            console.error("Error during submission:", error);
+            toast.error(error instanceof Error ? error.message : "An error occurred");
+        }
+
     }
+    // Handle image change
+    const handleImageChange = (imageList: ImageListType) => {
+        setImages(imageList);
+    };
     return (
         <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6 px-4 lg:px-16 items-center">
             {/* Left side: Animation */}
@@ -47,7 +105,17 @@ const Register = () => {
             {/* Right side: Form */}
             <div className="bg-popover-foreground dark:bg-popover-foreground shadow-md rounded-xl p-6 sm:p-8 text-white">
                 <h2 className="text-2xl font-bold text-center mb-6">Register</h2>
-
+                <div className="mb-6 flex justify-center">
+                    {images.length > 0 && (
+                        <Image
+                            height={80}
+                            width={80}
+                            src={images[0]?.data_url}
+                            alt="preview"
+                            className=" rounded-full"
+                        />
+                    )}
+                </div>
                 <form
                     onSubmit={handleSubmit(onSubmit)}
                     className="space-y-5">
@@ -78,7 +146,32 @@ const Register = () => {
                             {...register('email')}
                         />
                     </div>
+                    <div className="grid w-full items-center gap-1.5">
+                        <Label htmlFor="nid">Profile Photo<span className='text-red-700 font-bold'>*</span></Label>
+                        <ImageUploading
 
+                            multiple
+                            value={images}
+                            onChange={handleImageChange}
+                            dataURLKey="data_url"
+                            acceptType={['jpg', 'png', 'jpeg']}
+
+                        >
+                            {({ onImageUpload, dragProps }) => (
+                                <div className="space-y-3">
+                                    <Button
+                                        type="button"
+                                        variant="default"
+                                        className="w-full"
+                                        {...dragProps}
+                                        onClick={onImageUpload}
+                                    >
+                                        Upload Image
+                                    </Button>
+                                </div>
+                            )}
+                        </ImageUploading>
+                    </div>
                     {/* Password */}
                     <div className="grid gap-1.5">
                         <Label htmlFor="password">

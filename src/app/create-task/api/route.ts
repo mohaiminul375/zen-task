@@ -8,7 +8,7 @@ export const useCreateTask = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: async (newTodo: object) => {
-            const { data } = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_LOCAL}/todo/create-todo`, newTodo)
+            const { data } = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/todo/create-todo`, newTodo)
             return data
         },
         mutationKey: ['create-task'],

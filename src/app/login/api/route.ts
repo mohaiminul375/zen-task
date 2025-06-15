@@ -14,7 +14,7 @@ export const useUserLogin = () => {
     const router = useRouter();
     return useMutation({
         mutationFn: async (user_info: object) => {
-            const { data } = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_LOCAL}/users/login`, user_info)
+            const { data } = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/login`, user_info)
             return data
         },
         mutationKey: ['login-user'],

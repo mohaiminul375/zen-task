@@ -13,11 +13,13 @@ type Inputs = {
     title: string,
     description: string,
     due_Date: string,
+    userId: string | undefined,
     tags: string,
     status: string | undefined,
     priority: string | undefined,
 }
 const createTask = () => {
+    const today = new Date().toISOString().split("T")[0];
     const createTodo = useCreateTask();
     const { user } = useAuth();
     const [status, setStatus] = useState<string>();
@@ -31,9 +33,11 @@ const createTask = () => {
     } = useForm<Inputs>()
     const onSubmit: SubmitHandler<Inputs> = async (todo) => {
         todo.status = status;
+        todo.userId = user?._id;
         todo.priority = priority;
         console.log(todo)
         await createTodo.mutateAsync(todo);
+        reset();
     }
 
     return (
@@ -105,7 +109,7 @@ const createTask = () => {
                                 {/* Due Date */}
                                 <div>
                                     <Label htmlFor="due_Date">Due Date</Label>
-                                    <Input    {...register('due_Date')} type="date" id="due_Date" name="due_Date"
+                                    <Input min={today}  {...register('due_Date')} type="date" id="due_Date" name="due_Date"
                                         required />
                                     {errors.due_Date && <p className="text-sm text-red-500">{errors.due_Date.message}</p>}
                                 </div>

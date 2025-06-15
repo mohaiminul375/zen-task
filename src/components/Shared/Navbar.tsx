@@ -35,7 +35,7 @@ const Navbar = () => {
                         <DropdownMenu>
                             <DropdownMenuTrigger>
                                 <Avatar>
-                                    <AvatarImage src='https://i.ibb.co.com/RbY8vby/avatar.png' alt="avatar" />
+                                    <AvatarImage src={user.avatar}alt="avatar" />
                                     <AvatarFallback />
                                 </Avatar>
                             </DropdownMenuTrigger>

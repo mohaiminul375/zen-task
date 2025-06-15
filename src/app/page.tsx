@@ -27,6 +27,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           </div>
           <ul>
             <li><Link href='/create-task'>create task</Link></li>
+            <li><Link href='/all-task'>all task</Link></li>
           </ul>
 
         </div>

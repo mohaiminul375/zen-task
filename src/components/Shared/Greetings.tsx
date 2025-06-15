@@ -16,7 +16,7 @@ const Greetings = () => {
     };
     return (
         <div>
-            <h2 className='text-popover-foreground text-2xl'>{getGreeting()}, <span className="font-semibold text-popover-foreground">Mohaiminul Islam</span></h2>
+            <h2 className='text-popover-foreground dark:text-primary text-2xl'>{getGreeting()}, <span className="font-semibold text-primary">Mohaiminul Islam</span></h2>
             <p>Let’s make today productive. You’ve got this!</p>
         </div>
     );

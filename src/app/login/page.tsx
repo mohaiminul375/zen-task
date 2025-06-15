@@ -107,7 +107,7 @@ const LogIn = () => {
                         size="lg"
                         className="w-full font-semibold"
                     >
-                        Register
+                       LogIn
                     </Button>
                 </form>
                 {/* Navigate To Login Page */}

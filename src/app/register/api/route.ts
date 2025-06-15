@@ -9,7 +9,7 @@ export const useCreateUser = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: async (user_info: object) => {
-            const { data } = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_LOCAL}/users/register`, user_info)
+            const { data } = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/register`, user_info)
             console.log(data,'res form server')
             return data
         },

@@ -8,11 +8,7 @@ interface User {
     _id?: string;
     email?: string;
     name?: string;
-    accountType?: string;
-    phone_number: string;
-    current_balance: number | undefined;
-    total_income: number;
-    status: string;
+    avatar: string;
 }
 interface UserContextType {
     email?: string;
@@ -43,7 +39,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
             const fetchUser = async () => {
                 try {
                     setLoading(true);
-                    const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_LOCAL}/users/user-data`, {
+                    const response = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/users/user-data`, {
                         headers: {
                             authorization: `Bearer ${storedToken}`,
                         }
