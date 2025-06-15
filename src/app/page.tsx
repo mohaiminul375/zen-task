@@ -18,7 +18,7 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
       {/* dashboard */}
       <div className="flex">
         {/* Sidebar */}
-        <div className={`bg-gray-900 text-white min-h-screen transition-all duration-300 ${open ? 'w-64' : 'w-0'} overflow-hidden`}>
+        <div className={`bg-gray-900 text-white min-h-[calc(100vh-100px)] transition-all duration-300 ${open ? 'w-64' : 'w-0'} overflow-hidden`}>
           <div className="flex items-center justify-between p-4">
             <h1 className={`text-xl font-bold transition-all ${open ? 'block' : 'hidden'}`}>Dashboard</h1>
             <Button variant="ghost" onClick={() => setOpen(!open)} size="icon">

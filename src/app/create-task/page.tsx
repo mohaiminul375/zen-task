@@ -13,7 +13,7 @@ type Inputs = {
     title: string,
     description: string,
     due_Date: string,
-    userId: string | undefined,
+    email: string | undefined,
     tags: string,
     status: string | undefined,
     priority: string | undefined,
@@ -33,7 +33,7 @@ const createTask = () => {
     } = useForm<Inputs>()
     const onSubmit: SubmitHandler<Inputs> = async (todo) => {
         todo.status = status;
-        todo.userId = user?._id;
+        todo.email = user?.email;
         todo.priority = priority;
         console.log(todo)
         await createTodo.mutateAsync(todo);
@@ -81,7 +81,7 @@ const createTask = () => {
                                             <SelectValue placeholder="Select status" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="Todo">To Do</SelectItem>
+                                            <SelectItem value="To Do">To Do</SelectItem>
                                             <SelectItem value="In Progress">In Progress</SelectItem>
                                             <SelectItem value="Completed">Completed</SelectItem>
                                         </SelectContent>

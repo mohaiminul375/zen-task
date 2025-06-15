@@ -45,7 +45,7 @@ export default function RootLayout({
               disableTransitionOnChange
             >
               <Navbar />
-              <main className="md:max-w-7xl mx-auto">
+              <main className="md:max-w-7xl mx-auto min-h-[calc(100vh-50px)]">
                 {children}
               </main>
             </ThemeProvider>
