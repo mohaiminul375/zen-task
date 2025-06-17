@@ -15,7 +15,7 @@ import ThemeToggle from "@/components/Shared/ThemeToggle";
 import Loading from "./loading";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
   const { user, loading, logOut } = useAuth();
