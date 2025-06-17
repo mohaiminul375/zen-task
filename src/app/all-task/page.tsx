@@ -9,13 +9,14 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Search } from 'lucide-react';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CiGrid2H, CiGrid2V } from "react-icons/ci";
 type TaskStatus = 'To Do' | 'In Progress' | 'Completed';
 const Page = () => {
+    console.log(1)
     const router = useRouter()
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
     const [isGridView, setIsGridView] = useState(true);
     const [todayTasks, setTodayTasks] = useState('');
     // handle search
@@ -24,9 +25,12 @@ const Page = () => {
         e.preventDefault();
         setSearch((e.target as HTMLFormElement).search.value);
     }
-    if (!user) {
-        return router.replace('/login')
-    }
+    // secure path
+    useEffect(() => {
+        if (!loading && !user) {
+            router.push('/login');
+        }
+    }, [user, loading, router]);
     //   handle select
     const [sortDate, setSortDate] = useState('')
     const updateWithDnD = useUpdateTaskDnD();

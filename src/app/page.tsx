@@ -12,19 +12,21 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { RiPictureInPictureExitFill } from "react-icons/ri";
 import { IoIosLogOut } from "react-icons/io";
 import ThemeToggle from "@/components/Shared/ThemeToggle";
+import Loading from "./loading";
 
 export default function DashboardLayout({ children }: { children: ReactNode }) {
   const [open, setOpen] = useState(true);
   const pathname = usePathname();
   const router = useRouter();
   const { user, loading, logOut } = useAuth();
+  // secure path
   useEffect(() => {
     if (!loading && !user) {
       router.push('/login');
     }
-  }, [])
-  if (!user) {
-    router.replace('/login')
+  }, [user, loading, router]);
+  if (loading) {
+    return <Loading />;
   }
   const isHomePage = pathname === "/";
   return (
@@ -53,14 +55,14 @@ export default function DashboardLayout({ children }: { children: ReactNode }) {
           </div>
           <div className="flex flex-col  px-6 gap-5 min-h-[calc(100vh-280px)]">
             <Link className="bg-white text-black p-2 rounded-md text-center text-lg font-semibold" href='/'>Dashboard Home</Link>
-            <Link className="bg-white text-black p-2 rounded-md text-center text-lg font-semibold" href='/create-task'>create task</Link>
-            <Link className="bg-white text-black p-2 rounded-md text-center text-lg font-semibold" href='/all-task'>all task</Link>
+            <Link className="bg-white text-black p-2 rounded-md text-center text-lg font-semibold" href='/create-task'>Create Task</Link>
+            <Link className="bg-white text-black p-2 rounded-md text-center text-lg font-semibold" href='/all-task'>All Task</Link>
             <Link className="bg-white text-black p-2 rounded-md text-center text-lg font-semibold" href='/update-profile'>Update Profile</Link>
-          {/* bottom nav */}
+            {/* bottom nav */}
             <div className="flex justify-between items-center mt-0 mb-0 px-6 flex-1">
               <div className="flex justify-between gap-6 items-center mt-auto mb-0 ">
                 <button
-                  className="flex items-center gap-1 bg-white text-black p-2 rounded-md text-center text-lg font-semibold mt-auto mb-6"
+                  className="flex items-center gap-1 bg-white text-black p-2 rounded-md text-center text-lg font-semibold mt-auto mb-6 cursor-pointer"
                   onClick={logOut}
                 >
                   LogOut

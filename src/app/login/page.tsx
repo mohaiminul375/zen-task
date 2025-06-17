@@ -5,9 +5,12 @@ import { Label } from '@radix-ui/react-label';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useUserLogin } from './api/route';
+import { useAuth } from '@/Provider/AuthProvider';
+import { useRouter } from 'next/navigation';
+import Loading from '../loading';
 const LottiePlayer = dynamic(() => import('@lottiefiles/react-lottie-player').then((mod) => mod.Player), { ssr: false });
 type Inputs = {
     name: string
@@ -15,9 +18,18 @@ type Inputs = {
     password: string
 }
 const LogIn = () => {
+    const router = useRouter()
+    const { user, loading } = useAuth()
     const userLogin = useUserLogin();
     const [showPassword, setShowPassword] = useState(false);
-
+    useEffect(() => {
+        if (!loading && user) {
+            router.push('/');
+        }
+    }, [user, loading, router]);
+    if (loading) {
+        return <Loading />
+    }
     const {
         register,
         handleSubmit,

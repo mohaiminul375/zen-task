@@ -7,12 +7,13 @@ import { Input } from "@/components/ui/input";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { useAuth } from "@/Provider/AuthProvider";
 import ImageUploading, { ImageListType } from 'react-images-uploading';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import axios from "axios";
 import { useUpdateProfile } from "./api/route";
+import { useRouter } from "next/navigation";
 type Inputs = {
     name: string,
     email: string,
@@ -20,8 +21,9 @@ type Inputs = {
     avatar: string;
 }
 const UpdateProfile = () => {
+    const router = useRouter()
     const updateUser = useUpdateProfile();
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
     const [images, setImages] = useState<ImageListType>([]);
     console.log(images)
     const {
@@ -29,7 +31,12 @@ const UpdateProfile = () => {
         handleSubmit,
         formState: { errors },
     } = useForm<Inputs>();
-
+    // secure path
+    useEffect(() => {
+        if (!loading && !user) {
+            router.push('/login');
+        }
+    }, [user, loading, router]);
     //read the image
     const readFileAsBase64 = (file: File): Promise<string> => {
         return new Promise((resolve, reject) => {

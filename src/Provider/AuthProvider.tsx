@@ -26,14 +26,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const [error, setError] = useState<string | null>(null);
     const router = useRouter();
     useEffect(() => {
-
         if (typeof window !== 'undefined') {
-            const storedToken = sessionStorage.getItem('token');
-            // setToken(storedToken);
-
+            const storedToken = localStorage.getItem('token');
             if (!storedToken) {
                 setLoading(false);
-                return;
+                return
             }
             // Fetch user for stay logged in
             const fetchUser = async () => {
@@ -49,6 +46,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                         return
                     }
                     if (response?.data?.user) {
+                        console.log(response)
                         setUser(response.data.user);
                     } else {
                         setError('User data not found');

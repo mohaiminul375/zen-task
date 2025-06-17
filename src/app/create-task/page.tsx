@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Button } from '@/components/ui/button';
 import { useAuth } from '@/Provider/AuthProvider';
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useCreateTask } from './api/route';
 import { useRouter } from 'next/navigation';
 type Inputs = {
@@ -23,9 +23,15 @@ const createTask = () => {
     const router = useRouter()
     const today = new Date().toISOString().split("T")[0];
     const createTodo = useCreateTask();
-    const { user } = useAuth();
+    const { user, loading } = useAuth();
     const [status, setStatus] = useState<string>();
     const [priority, setPriority] = useState<string>();
+    // secure path
+    useEffect(() => {
+        if (!loading && !user) {
+            router.push('/login');
+        }
+    }, [user, loading, router]);
     const {
         register,
         handleSubmit,
@@ -42,9 +48,7 @@ const createTask = () => {
         reset();
     }
     // private the route
-    if (!user) {
-        return router.replace('/login')
-    }
+
     return (
         <DashboardLayout>
             <head>

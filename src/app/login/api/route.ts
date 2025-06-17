@@ -24,7 +24,7 @@ export const useUserLogin = () => {
             if (data.success === true) {
                 toast.success('Login Successfully')
                 // Set token to SS and update to call context API
-                sessionStorage.setItem('token', data.token)
+                localStorage.setItem('token', data.token)
                 setToken(data?.token)
                 setTimeout(() => {
                     router.replace('/')

@@ -53,11 +53,17 @@ npm run dev -- --host
 ### 4.All Tasks & Update Task
 
 - User can view all tasks in 3 Kanban columns (To Do, In Progress, Completed)
+- User can filter their task by title, description, tags, also can filter by current date
 - Tasks can be updated in real-time via drag and drop between columns
-- v
+  For better user experience, users will be able to view the visuals using both grid and column toggle options.
+
 ### 5.Drag and Drop
 
 - Users can seamlessly drag and drop tasks between the three columns To Do, In Progress, and Completed to visually update the task status in real-time.
+
+### 6.Update Profile
+
+- User can update their profile only name and image
 
 # 🔐 Access Info
 
@@ -90,3 +96,9 @@ npm run dev -- --host
 # 🖥️ Server Side
 
 - [Zen Task Server Repository](https://github.com/mohaiminul375/zen-task-server)
+
+#  ⚠️ Important Note
+
+- Due to some technical issues during development, I had to push updated code to the same GitHub repository using `--force` to fix major bugs. As a result, the previous commit history has been overwritten and is no longer visible.
+
+- However, the current codebase is fully functional and up to date. I apologize for any inconvenience this may cause and appreciate your understanding.

@@ -9,6 +9,7 @@ import {
 } from '@tanstack/react-query';
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "@/Provider/AuthProvider";
+import { usePathname } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -28,6 +29,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+
   return (
     <html lang="en">
       <body
@@ -44,6 +47,9 @@ export default function RootLayout({
               enableSystem
               disableTransitionOnChange
             >
+              {
+                pathname === '/register' || pathname === '/login' && <Navbar />
+              }
               {/* <Navbar /> */}
               <main className="md:max-w-7xl mx-auto min-h-screen">
                 {children}

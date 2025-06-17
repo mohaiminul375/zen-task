@@ -5,13 +5,16 @@ import { Label } from '@radix-ui/react-label';
 import { EyeIcon, EyeOffIcon } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { useCreateUser } from './api/route';
 import ImageUploading, { ImageListType } from 'react-images-uploading';
 import toast from 'react-hot-toast';
 import axios from 'axios';
 import Image from 'next/image';
+import Loading from '../loading';
+import { useRouter } from "next/navigation";
+import { useAuth } from '@/Provider/AuthProvider';
 type Inputs = {
     name: string,
     email: string,
@@ -21,9 +24,20 @@ type Inputs = {
 
 const LottiePlayer = dynamic(() => import('@lottiefiles/react-lottie-player').then((mod) => mod.Player), { ssr: false });
 const Register = () => {
+    const router = useRouter();
+    const { user, loading, logOut } = useAuth();
+    // secure path
     const createUser = useCreateUser();
     const [showPassword, setShowPassword] = useState(false);
     const [images, setImages] = useState<ImageListType>([]);
+    useEffect(() => {
+        if (!loading && user) {
+            router.push('/');
+        }
+    }, [user, loading, router]);
+    if (loading) {
+        return <Loading />
+    }
     const {
         register,
         handleSubmit,
