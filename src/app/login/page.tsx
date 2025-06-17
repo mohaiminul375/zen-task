@@ -68,6 +68,7 @@ const LogIn = () => {
                             Email <span className="text-red-600 font-bold">*</span>
                         </Label>
                         <Input
+                        defaultValue='mohaiminul375@gmail.com'
                             type="email"
                             id="email"
                             placeholder="Enter Email"
@@ -82,6 +83,7 @@ const LogIn = () => {
                         </Label>
                         <div className="relative">
                             <Input
+                            defaultValue='246123'
                                 type={showPassword ? 'text' : 'password'}
                                 id="password"
                                 placeholder="Enter Password"

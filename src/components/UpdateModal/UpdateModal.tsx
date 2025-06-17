@@ -126,7 +126,7 @@ const UpdateModal = ({ task }: CardProp) => {
                     {errors.tags && <p className="text-sm text-red-500">{errors.tags.message}</p>}
                 </div>
 
-                <Button type="submit" className="w-full">Create Task</Button>
+                <Button type="submit" className="w-full">Update Task</Button>
             </form>
         </div>
     );

@@ -159,7 +159,6 @@ const UpdateProfile = () => {
                         <div className="grid w-full items-center gap-1.5">
                             <Label htmlFor="nid">Profile Photo<span className='text-red-700 font-bold'>*</span></Label>
                             <ImageUploading
-
                                 multiple
                                 value={images}
                                 onChange={handleImageChange}
@@ -188,7 +187,7 @@ const UpdateProfile = () => {
                             size="lg"
                             className="w-full font-semibold"
                         >
-                            Update
+                            Update Profile
                         </Button>
                     </form>
                 </div>

@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
     // Logout and redirect to login page
     const logOut = () => {
-        sessionStorage.removeItem('token');
+        localStorage.removeItem('token');
         setUser(null);
         router.replace('/login');
     };

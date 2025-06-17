@@ -16,12 +16,8 @@ const Navbar = () => {
         <header className="flex h-20 w-full items-center px-4 md:px-6 shadow-xl border-b-2 bg-popover-foreground">
             <Link href="/" className="flex items-center">
                 {/* <Image src={logo} alt="site_logo" height={30} width={30} className="rounded-full" /> */}
-                <span className="ml-2 text-xl italic font-extrabold text-white hidden lg:flex items-center ">
+                <span className="ml-2 text-xl italic font-extrabold text-white flex items-center ">
                     Zen-Task
-                    <RiMenu2Fill className="text-3xl mt-2" />
-                </span>
-                <span className="lg:hidden text-white text-3xl font-bold">
-                    <RiMenu2Fill />
                 </span>
             </Link>
             {/* Login/Register Buttons */}
