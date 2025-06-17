@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import Image from "next/image";
 import toast from "react-hot-toast";
 import axios from "axios";
+import { useUpdateProfile } from "./api/route";
 type Inputs = {
     name: string,
     email: string,
@@ -19,6 +20,7 @@ type Inputs = {
     avatar: string;
 }
 const UpdateProfile = () => {
+    const updateUser = useUpdateProfile();
     const { user } = useAuth();
     const [images, setImages] = useState<ImageListType>([]);
     console.log(images)
@@ -81,7 +83,7 @@ const UpdateProfile = () => {
             }
 
             console.log(user_data);
-            // await crUser.mutateAsync(user_data);
+            await updateUser.mutateAsync({ _id: user?._id, user_data });
             setImages([]);
 
         } catch (error) {
